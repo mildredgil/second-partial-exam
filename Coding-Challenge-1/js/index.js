@@ -26,7 +26,7 @@ let fetchData = (query) => {
         }
     }).catch((err) => {
         console.log(err)
-        resultsHTML.innerText = "Not found";
+        resultsHTML.innerText = "Pokemon Not found";
     });
 }
 
