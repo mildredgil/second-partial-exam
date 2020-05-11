@@ -9,13 +9,11 @@ const sportSchema = mongoose.Schema({
     },
     name: {
         type: String,
-        required: true,
-        unique: true
+        required: true
     },
     num_players: {
         type: Number,
-        required: true,
-        unique: true
+        required: true
     }
 })
 

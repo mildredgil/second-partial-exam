@@ -60,19 +60,30 @@ app.post('/sports/addSport/:sportId', [jsonParser], function (req, res) {
   res.status(201).json(sports);
 })
 
-app.post('/create',[jsonParser], function (req, res) {
+app.post('/create/:sportId',[jsonParser], function (req, res) {
+    let {sportId} = req.params;
     let {id, name, num_players} = req.body;
-    /*let newS = {
-        "id": Number(id), 
-        "name":name, 
-        "num_players": Number(num_players)}*/
-
     
+    if( !name || !num_players || !id) {
+        res.statusMessage = "One of this is missing: name, num_players, id";  
+        return res.status(406).end();
+    }
+
+    if(Number(sportId) != Number(id)) {
+        res.statusMessage = "sportId parameter and id in body didnt match";  
+        return res.status(409).end();
+    }
+
     Sports
     .create(id, name, num_players)
     .then((result) => {
-        console.log(result);
-        return res.status(200).json(result);
+        
+        if( result.errmsg ) {
+            res.statusMessage = result.errmsg;
+            return res.status(400).end();
+        }
+
+        return res.status(201).json(result);
     }).catch((err) => {
         res.statusMessage = "Error database problems, comeback later"
         return res.status(500).end();
